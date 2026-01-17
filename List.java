@@ -102,6 +102,7 @@ public class List {
         }
 
         current.next = new Node(new CharData(chr));
+        this.size++;
     }
 
     /** GIVE If the given character exists in one of the CharData objects
