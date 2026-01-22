@@ -120,10 +120,12 @@ public class List {
             this.size--;
             return true;
         }
+
         // Removing elements after:
         while(current.next != null){
             if(current.next.cp.chr != chr){
                 current = current.next;
+                continue;
             }
             current.next = current.next.next;
             this.size--;
