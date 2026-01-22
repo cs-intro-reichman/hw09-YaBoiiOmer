@@ -39,20 +39,24 @@ public class List {
     /** GIVE Textual representation of this list. */
     public String toString() {
         if(this.size == 0) return "";
-        StringBuilder builder = new StringBuilder();
-        builder.append("( ");
+
+        StringBuilder builder = new StringBuilder();        
+        builder.append("(");
         Node current = this.first;
 
         while(current != null){
-            builder.append(current.toString() + " ");
+            builder.append(current.toString());
+
+            if(current.next != null){
+                builder.append(" ");
+            }
+
             current = current.next;
         }
 
         builder.append(")");
 
         return builder.toString();
-
-
     }
 
     /** Returns the index of the first CharData object in this list
