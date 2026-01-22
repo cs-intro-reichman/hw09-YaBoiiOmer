@@ -88,7 +88,7 @@ public class List {
         };
         
         if(current.cp.chr == chr){
-            current.cp.chr++;
+            current.cp.count++;
             return;
         }
         
@@ -100,7 +100,7 @@ public class List {
             current.next.cp.count++;
             return;
         }
-
+        
         current.next = new Node(new CharData(chr));
         this.size++;
     }

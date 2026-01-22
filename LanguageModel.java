@@ -34,25 +34,28 @@ public class LanguageModel {
     /** Builds a language model from the text in the given file (the corpus). */
 	public void train(String fileName) {
         In input = new In(fileName);
-        int index = 0;
-        while(!input.isEmpty()){
-            String line = input.readLine();
-            while(index + this.windowLength + 1 <= line.length()){
-                String window = line.substring(index, index + this.windowLength);
-                char followingLetter = line.charAt(index + this.windowLength);
-                List list = null;
-                if(CharDataMap.containsKey(window)){
-                    list = CharDataMap.get(window);
-                    list.update(followingLetter);
-                }else{
-                    list = new List();
-                    list.addFirst(followingLetter);
-                    CharDataMap.put(window, list);
-                }
-                this.calculateProbabilities(list);
-                index ++;
-            }
+        String window = "";
+        char c;
+        List list = null;
+
+        for(int i = 0; i < this.windowLength; i++){
+            window += input.readChar();
         }
+
+        while(!input.isEmpty()){
+            c = input.readChar();
+            if(this.CharDataMap.containsKey(window)){
+                list = this.CharDataMap.get(window);
+                list.update(c);
+            }else{
+                list = new List();
+                list.addFirst(c);
+                this.CharDataMap.put(window, list);
+            }
+            this.calculateProbabilities(list);
+            window = window.substring(1) + c;
+        }
+
 	}
 
     // Computes and sets the probabilities (p and cp fields) of all the
@@ -64,12 +67,12 @@ public class LanguageModel {
         for(int i = 0; i < probs.getSize(); i++){
             total += probs.get(i).count;
         }
-        
+
         for(int i = 0; i < probs.getSize(); i++){
             CharData data = probs.get(i);
             data.p =  ((double) data.count) / total;
-            data.cp += data.p + cp;
             cp += data.p;
+            data.cp = cp;
         }
 	}
 
@@ -92,7 +95,10 @@ public class LanguageModel {
 	 * @return the generated text
 	 */
 	public String generate(String initialText, int textLength) {
-		// Your code goes here
+        List value = this.CharDataMap.get(initialText);
+        char c = this.getRandomChar(value);
+
+
         return "";
 	}
 
