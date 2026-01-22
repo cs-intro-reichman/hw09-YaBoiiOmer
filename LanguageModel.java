@@ -95,11 +95,28 @@ public class LanguageModel {
 	 * @return the generated text
 	 */
 	public String generate(String initialText, int textLength) {
-        List value = this.CharDataMap.get(initialText);
-        char c = this.getRandomChar(value);
 
+        if(initialText.length() < this.windowLength) {
+            System.out.println("Initial text shorter than window length, quitting.");
+            return initialText;
+        }
+        
+        System.out.println("Creating string builder.");
+        StringBuilder builder = new StringBuilder(initialText);
+        String window = initialText.substring(initialText.length() - this.windowLength);
+        System.out.println("Initial window: " + window);
+        while(builder.length() < textLength){
+            System.out.println("Trying to find CharData list");
+            List value = this.CharDataMap.get(window);
+            if(value == null) return builder.toString();
+            
+            char c = this.getRandomChar(value);
+            System.out.println("Found list! Appended letter: '" + c + "'");
+            builder.append(c);
+            window = window.substring(1) + c;
+        }
 
-        return "";
+        return builder.toString();
 	}
 
     /** Returns a string representing the map of this language model. */
@@ -113,6 +130,19 @@ public class LanguageModel {
 	}
 
     public static void main(String[] args) {
-		// Your code goes here
-    }
+        int windowLength = Integer.parseInt(args[0]);
+        String initialText = args[1];
+        int generatedTextLength = Integer.parseInt(args[2]);
+        Boolean randomGeneration = args[3].equals("random");
+        String fileName = args[4];
+
+        LanguageModel lm;
+        if (randomGeneration)
+            lm = new LanguageModel(windowLength);
+        else
+            lm = new LanguageModel(windowLength, 20);
+
+        lm.train(fileName);
+        System.out.println(lm.generate(initialText, generatedTextLength));
+        }
 }
