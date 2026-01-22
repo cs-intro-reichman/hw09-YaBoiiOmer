@@ -97,21 +97,21 @@ public class LanguageModel {
 	public String generate(String initialText, int textLength) {
 
         if(initialText.length() < this.windowLength) {
-            System.out.println("Initial text shorter than window length, quitting.");
+            // System.out.println("Initial text shorter than window length, quitting.");
             return initialText;
         }
         
-        System.out.println("Creating string builder.");
+        // System.out.println("Creating string builder.");
         StringBuilder builder = new StringBuilder(initialText);
         String window = initialText.substring(initialText.length() - this.windowLength);
-        System.out.println("Initial window: " + window);
+        // System.out.println("Initial window: " + window);
         while(builder.length() < textLength){
-            System.out.println("Trying to find CharData list");
+            // System.out.println("Trying to find CharData list");
             List value = this.CharDataMap.get(window);
             if(value == null) return builder.toString();
             
             char c = this.getRandomChar(value);
-            System.out.println("Found list! Appended letter: '" + c + "'");
+            // System.out.println("Found list! Appended letter: '" + c + "'");
             builder.append(c);
             window = window.substring(1) + c;
         }
