@@ -32,7 +32,6 @@ public class CharData {
 	
 	/** Returns a textual representation of this CharData object. */
 	public String toString() {
-		DecimalFormat formatter = new DecimalFormat("0.0###");
-		return "(" + chr + " " + count + " " + formatter.format(p) + " " + formatter.format(cp) + ")";
+		return "(" + chr + " " + count + " " + p + " " + cp + ")";
 	}
 }
