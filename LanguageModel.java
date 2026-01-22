@@ -52,9 +52,11 @@ public class LanguageModel {
                 list.addFirst(c);
                 this.CharDataMap.put(window, list);
             }
-            this.calculateProbabilities(list);
             window = window.substring(1) + c;
         }
+        
+        for (List probs : this.CharDataMap.values())
+            this.calculateProbabilities(probs);
 
 	}
 
@@ -80,7 +82,7 @@ public class LanguageModel {
         double r = randomGenerator.nextDouble();
         for(int i = 0; i < probs.getSize(); i++){
             CharData data = probs.get(i);
-            if(data.cp > r) return data.chr;
+            if(data.cp >= r) return data.chr;
         }
 
 		return ' ';
@@ -107,14 +109,15 @@ public class LanguageModel {
         while(builder.length() < textLength){
             // System.out.println("Trying to find CharData list");
             List value = this.CharDataMap.get(window);
-            if(value == null) return builder.toString();
+            if(value == null) {
+                return builder.toString();
+            }
             
             char c = this.getRandomChar(value);
             // System.out.println("Found list! Appended letter: '" + c + "'");
             builder.append(c);
             window = window.substring(1) + c;
         }
-
         return builder.toString();
 	}
 
