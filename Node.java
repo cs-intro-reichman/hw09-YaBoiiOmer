@@ -23,6 +23,6 @@ public class Node {
  
     /** Textual representation of this node. */
     public String toString() {
-       return "" + cp;
+       return cp.toString();
     }
  }

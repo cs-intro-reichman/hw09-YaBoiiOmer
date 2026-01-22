@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 /** Represents a character data object. 
  *  A character data object has a char value,
  *  a counter, and two probability fields. */
@@ -30,6 +32,7 @@ public class CharData {
 	
 	/** Returns a textual representation of this CharData object. */
 	public String toString() {
-		return "(" + chr + " " + count + " " +String.format("%.4f %.4f", p, cp) + ")";
+		DecimalFormat formatter = new DecimalFormat("0.0###");
+		return "(" + chr + " " + count + " " + formatter.format(p) + " " + formatter.format(cp) + ")";
 	}
 }
