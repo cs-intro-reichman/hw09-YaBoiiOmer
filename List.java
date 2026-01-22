@@ -38,7 +38,7 @@ public class List {
     
     /** GIVE Textual representation of this list. */
     public String toString() {
-        if(this.size == 0) return "";
+        if(this.size == 0) return "()";
 
         StringBuilder builder = new StringBuilder();        
         builder.append("(");
@@ -104,9 +104,7 @@ public class List {
             current.next.cp.count++;
             return;
         }
-        
-        current.next = new Node(new CharData(chr));
-        this.size++;
+        this.addFirst(chr);
     }
 
     /** GIVE If the given character exists in one of the CharData objects
