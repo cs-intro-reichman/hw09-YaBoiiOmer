@@ -30,20 +30,53 @@ public class List {
 
     /** GIVE Adds a CharData object with the given character to the beginning of this list. */
     public void addFirst(char chr) {
-        // Your code goes here
+        Node head = new Node(new CharData(chr));
+        head.next = this.first;
+        this.first = head;
+        this.size++;
     }
     
     /** GIVE Textual representation of this list. */
     public String toString() {
-        // Your code goes here
-        return "";
+        if(this.size == 0) return "()";
+
+        StringBuilder builder = new StringBuilder();        
+        builder.append("(");
+        Node current = this.first;
+
+        while(current != null){
+            builder.append(current.toString());
+
+            if(current.next != null){
+                builder.append(" ");
+            }
+
+            current = current.next;
+        }
+
+        builder.append(")");
+
+        return builder.toString();
     }
 
     /** Returns the index of the first CharData object in this list
      *  that has the same chr value as the given char,
      *  or -1 if there is no such object in this list. */
     public int indexOf(char chr) {
-        // Your code goes here
+        int index = 0;
+        Node current = this.first;
+        if(current == null) return -1;
+
+        do{
+            if(current.cp.chr != chr) {
+                index++;
+                current = current.next;
+                continue;
+            }
+            return index;
+
+        }while(current != null);
+
         return -1;
     }
 
@@ -51,14 +84,54 @@ public class List {
      *  increments its counter. Otherwise, adds a new CharData object with the
      *  given chr to the beginning of this list. */
     public void update(char chr) {
-        // Your code goes here
+        Node current = this.first;
+
+        if(current == null) {
+            this.addFirst(chr);
+            return;
+        };
+        
+        if(current.cp.chr == chr){
+            current.cp.count++;
+            return;
+        }
+        
+        while(current.next != null){
+            if(current.next.cp.chr != chr){
+                current = current.next;
+                continue;
+            }
+            current.next.cp.count++;
+            return;
+        }
+        this.addFirst(chr);
     }
 
     /** GIVE If the given character exists in one of the CharData objects
      *  in this list, removes this CharData object from the list and returns
      *  true. Otherwise, returns false. */
     public boolean remove(char chr) {
-        // Your code goes here
+        Node current = this.first;
+        if(current == null) return false;
+
+        // Removing first element:
+        if(current.cp.chr == chr){
+            this.first = current.next;
+            this.size--;
+            return true;
+        }
+
+        // Removing elements after:
+        while(current.next != null){
+            if(current.next.cp.chr != chr){
+                current = current.next;
+                continue;
+            }
+            current.next = current.next.next;
+            this.size--;
+            return true;
+        }
+
         return false;
     }
 
@@ -66,7 +139,20 @@ public class List {
      *  If the index is negative or is greater than the size of this list, 
      *  throws an IndexOutOfBoundsException. */
     public CharData get(int index) {
-        // Your code goes here
+        // 0 1  2
+        if(index > this.size || index < 0 || this.size == 0){
+            throw new IndexOutOfBoundsException();
+        }
+        int i = 0;
+        Node current = this.first;
+        do{
+            if(i == index){
+                return current.cp;
+            }
+            current = current.next;
+            i++;
+        } while(current != null);
+
         return null;
     }
 

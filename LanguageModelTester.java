@@ -129,6 +129,11 @@ public class LanguageModelTester {
                 // ACTUAL TEST
                 languageModel.train(file.getName());
                 res = stringEqualsNoSpaces(languageModel.toString(), expected[i]);
+                // System.out.println(String.format("Actual [%d]: ", i));
+                // System.out.println(languageModel.toString());
+                // System.out.println(String.format("Expected [%d]: ", i));
+                // System.out.println(expected[i]);                
+
                 // ACTUAL TEST ENDS
 
                 // DONT CHANGE <- SETUP

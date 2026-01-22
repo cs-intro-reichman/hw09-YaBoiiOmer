@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 /** Represents a character data object. 
  *  A character data object has a char value,
  *  a counter, and two probability fields. */
